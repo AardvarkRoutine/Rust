@@ -135,12 +135,10 @@ mod tests {
     }
     #[test]
     fn test_impossible_withdraw() {
-        let mut acc: BankAccount = BankAccount { owner: ("Paul".to_string()), balance: (30) };
-        acc.deposit(30);
-        let result: Result<(), String> = acc.withdraw(31);
-        assert!(result.is_ok());
-        assert_eq!(result.unwrap_err(), "withdrawal unsucessfull")
-
+        let mut acc = BankAccount::new("Paul".to_string());
+        let result = acc.withdraw(999); // zu viel, bei 0 Startguthaben
+        assert!(result.is_err());
+        assert_eq!(result.unwrap_err(), "Guthaben nicht ausreichend!");
     }
 
 }
