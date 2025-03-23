@@ -44,13 +44,35 @@ pub fn find_even(numbers: &[u32]) -> Option<u32> {
 
 //Aufgabe 6
 pub struct BankAccount {
-    name: String,
-    balance: i32,
-};
+    owner: String,
+    balance: u32,
+}
+impl BankAccount {
+    pub fn new(owner :String) -> Self {
+        Self {owner: owner.to_string(), balance: 0}
+    }
+    pub fn deposit(&mut self, amount: u32) -> u32 {
+        self.balance = self.balance + amount;
+        return self.balance;
+    }
+    pub fn withdraw(&mut self, amount: u32) -> Result<(), String> {
+        if self.balance >= amount{
+            self.balance -= amount;
+            Ok(())
+        } else {
+            Err("Guthaben nicht ausreichend!".to_string())
+        }
+    }
+    pub fn get_balance (&self) -> String {
+        format!("Du, {}, hast {} in deinem accout!", self.owner, self.balance)
+    }
+}
+
+    
+
 
 #[cfg(test)]
 mod tests {
-
     use super::*;
 
     //Aufgabe 1
@@ -104,4 +126,21 @@ mod tests {
 
 
     }
+
+    //Aufgabe 6
+    #[test]
+    fn test_deposit() {
+        let mut acc = BankAccount::new("Paul".to_string());
+        assert_eq!(acc.deposit(30), 30)
+    }
+    #[test]
+    fn test_impossible_withdraw() {
+        let mut acc: BankAccount = BankAccount { owner: ("Paul".to_string()), balance: (30) };
+        acc.deposit(30);
+        let result: Result<(), String> = acc.withdraw(31);
+        assert!(result.is_ok());
+        assert_eq!(result.unwrap_err(), "withdrawal unsucessfull")
+
+    }
+
 }
