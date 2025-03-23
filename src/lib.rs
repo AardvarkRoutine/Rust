@@ -42,6 +42,12 @@ pub fn find_even(numbers: &[u32]) -> Option<u32> {
     return None
 }
 
+//Aufgabe 6
+pub struct BankAccount {
+    name: String,
+    balance: i32,
+};
+
 #[cfg(test)]
 mod tests {
 
